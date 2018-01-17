@@ -4,21 +4,21 @@ import java.util.Random;
 
 public class Deck {
 
-	private static final int SHUFFLE_FACTOR = 100;
+	private static final int SHUFFLE_FACTOR = 99;
 	private final Card[] cards;
 	private int topCardIndex;
 	private final Random random;
 
 	public Deck(Random random) {
 		this.random = random;
-		CardRank[] ranks = CardRank.values();
-		CardSuit[] suits = CardSuit.values();
+		final CardRank[] ranks = CardRank.values();
+		final CardSuit[] suits = CardSuit.values();
 
 		this.cards = new Card[suits.length * ranks.length];
 
 		int index = 0;
-		for (CardSuit suit : suits) {
-			for (CardRank rank : ranks) {
+		for (final CardSuit suit : suits) {
+			for (final CardRank rank : ranks) {
 				this.cards[index++] = new Card(suit, rank);
 			}
 		}
@@ -30,24 +30,37 @@ public class Deck {
 	}
 
 	public void shuffle() {
-		int size = this.cards.length;
+		final int size = this.cards.length;
 		for (int i = 0; i < SHUFFLE_FACTOR; i++) {
 			this.changeCards(this.random.nextInt(size), this.random.nextInt(size));
 		}
 		this.topCardIndex = 0;
 	}
 
+	public Deck append(Card card) {
+		this.cards[this.topCardIndex++] = card;
+		return this;
+	}
+
+	public <T> T bar(T foo) {
+		return foo;
+	}
+
 	private void changeCards(int indexA, int indexB) {
-		Card tmpCard = this.cards[indexA];
+		final Card tmpCard = this.cards[indexA];
 		this.cards[indexA] = this.cards[indexB];
 		this.cards[indexB] = tmpCard;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder content = new StringBuilder(500);
-		for (Card card : this.cards) {
-			content.append(card).append("\n");
+		final StringBuilder content = new StringBuilder(500);
+		for (int i = 0; i < this.cards.length; i++) {
+			content.append(this.cards[i]);
+			if (i == this.topCardIndex) {
+				content.append("  <-- top card");
+			}
+			content.append("\n");
 		}
 		return content.toString();
 	}

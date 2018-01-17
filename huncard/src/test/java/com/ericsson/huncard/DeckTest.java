@@ -21,7 +21,9 @@ public class DeckTest {
 	@Test
 	public void verifyDeckShuffleInternalBehavior() {
 		Random random = Mockito.mock(Random.class);
+
 		Mockito.when(random.nextInt(NUMBER_OF_CARDS)).thenReturn(1).thenReturn(3);
+
 		Deck deck = new Deck(random);
 
 		Assert.assertEquals(deck.getTopCard(), new Card(CardSuit.Acorns, CardRank.r7));
