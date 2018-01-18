@@ -10,7 +10,6 @@ public class Game {
 	private int playerIndex;
 
 	public Game(Random random) {
-
 		this.deck = new Deck(random);
 		this.players = new Player[NUMBER_OF_MAX_PLAYERS];
 		this.playerIndex = 0;
@@ -56,7 +55,7 @@ public class Game {
 	@Override
 	public String toString() {
 		final StringBuilder content = new StringBuilder(500);
-		content.append("Players: ");
+		content.append("---[ Game ]---\n");
 		for (int i = 0; i < this.playerIndex; i++) {
 			content.append(this.players[i]).append("\n");
 		}

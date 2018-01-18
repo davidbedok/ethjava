@@ -1,5 +1,7 @@
 package com.ericsson.huncard;
 
+import java.util.Arrays;
+
 public class Player {
 
 	public static final int NUMBER_OF_PLAYER_CARDS = 3;
@@ -18,13 +20,14 @@ public class Player {
 	}
 
 	public Card[] dropCards() {
+		Card[] result = Arrays.copyOfRange(this.cards, 0, this.index);
 		this.index = 0;
-		return this.cards;
+		return result;
 	}
 
 	public int getScore() {
 		int result = 0;
-		for (int i = 0; i < this.cards.length; i++) {
+		for (int i = 0; i < this.index; i++) {
 			result += this.cards[i].getValue();
 		}
 		return result;
@@ -33,9 +36,9 @@ public class Player {
 	@Override
 	public String toString() {
 		final StringBuilder content = new StringBuilder(100);
-		content.append("Player: ").append(this.name).append(" Score: ").append(this.getScore()).append("\n");
-		for (final Card card : this.cards) {
-			content.append(card).append("\n");
+		content.append("---[ ").append(this.name).append(" ]--- ").append(" Score: ").append(this.getScore()).append("\n");
+		for (int i = 0; i < this.index; i++) {
+			content.append("[").append(i + 1).append("] ").append(this.cards[i]).append("\n");
 		}
 		return content.toString();
 	}

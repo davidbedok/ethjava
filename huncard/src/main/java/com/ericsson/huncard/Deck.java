@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Deck {
 
-	private static final int SHUFFLE_FACTOR = 99;
+	private static final int SHUFFLE_FACTOR = 100;
 	private final Card[] cards;
 	private int topCardIndex;
 	private final Random random;
@@ -37,15 +37,6 @@ public class Deck {
 		this.topCardIndex = 0;
 	}
 
-	public Deck append(Card card) {
-		this.cards[this.topCardIndex++] = card;
-		return this;
-	}
-
-	public <T> T bar(T foo) {
-		return foo;
-	}
-
 	private void changeCards(int indexA, int indexB) {
 		final Card tmpCard = this.cards[indexA];
 		this.cards[indexA] = this.cards[indexB];
@@ -55,8 +46,9 @@ public class Deck {
 	@Override
 	public String toString() {
 		final StringBuilder content = new StringBuilder(500);
+		content.append("---[ Deck ]---\n");
 		for (int i = 0; i < this.cards.length; i++) {
-			content.append(this.cards[i]);
+			content.append("[").append(String.format("%1$2s", i + 1)).append("] ").append(this.cards[i]);
 			if (i == this.topCardIndex) {
 				content.append("  <-- top card");
 			}
