@@ -1,18 +1,19 @@
 package com.ericsson.huncard;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Game {
 
-	private static final int NUMBER_OF_MAX_PLAYERS = 4;
+	private final int numberOfPlayerCards;
 	private final Deck deck;
-	private final Player[] players;
-	private int playerIndex;
+	private final List<Player> players;
 
-	public Game(Random random) {
+	public Game(Random random, int numberOfPlayerCards) {
+		this.numberOfPlayerCards = numberOfPlayerCards;
 		this.deck = new Deck(random);
-		this.players = new Player[NUMBER_OF_MAX_PLAYERS];
-		this.playerIndex = 0;
+		this.players = new ArrayList<>();
 	}
 
 	public void addPlayer(String... names) {
@@ -22,7 +23,7 @@ public class Game {
 	}
 
 	private void addPlayer(Player player) {
-		this.players[this.playerIndex++] = player;
+		this.players.add(player);
 	}
 
 	public Player play() {
@@ -32,21 +33,25 @@ public class Game {
 	}
 
 	private void divideCards() {
-		for (int k = 0; k < Player.NUMBER_OF_PLAYER_CARDS; k++) {
-			for (int i = 0; i < this.playerIndex; i++) {
-				this.players[i].addCard(this.deck.getTopCard());
+		for (int k = 0; k < this.numberOfPlayerCards; k++) {
+			for (final Player player : this.players) {
+				player.addCard(this.deck.getTopCard());
 			}
 		}
 	}
 
 	private Player getWinners() {
-		Player result = this.players[0];
-		int maximum = result.getScore();
-		for (int i = 1; i < this.playerIndex; i++) {
-			final int currentScore = this.players[i].getScore();
-			if (maximum < currentScore) {
-				result = this.players[i];
-				maximum = currentScore;
+		Player result = null;
+		if (this.players.size() > 0) {
+			result = this.players.get(0);
+			int maximum = result.getScore();
+			for (int i = 1; i < this.players.size(); i++) {
+				final Player player = this.players.get(i);
+				final int score = player.getScore();
+				if (maximum < score) {
+					result = player;
+					maximum = score;
+				}
 			}
 		}
 		return result;
@@ -56,8 +61,8 @@ public class Game {
 	public String toString() {
 		final StringBuilder content = new StringBuilder(500);
 		content.append("---[ Game ]---\n");
-		for (int i = 0; i < this.playerIndex; i++) {
-			content.append(this.players[i]).append("\n");
+		for (final Player player : this.players) {
+			content.append(player).append("\n");
 		}
 		content.append(this.deck);
 		return content.toString();
