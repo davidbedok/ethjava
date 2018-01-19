@@ -23,24 +23,24 @@ public abstract class Furniture {
 		this.price = price;
 	}
 
-	public Material getMaterial() {
-		return this.material;
-	}
-
-	public double getPrice() {
-		return this.price;
+	public String getFancyName() {
+		return this.fancyName;
 	}
 
 	public Room getRoom() {
 		return this.room;
 	}
 
+	public Material getMaterial() {
+		return this.material;
+	}
+
 	public Size getSize() {
 		return this.size;
 	}
 
-	public String getFancyName() {
-		return this.fancyName;
+	public double getPrice() {
+		return this.price;
 	}
 
 	@Override
@@ -49,7 +49,16 @@ public abstract class Furniture {
 	}
 
 	public String sell(int pieces) {
-		return pieces + " piece(s) " + this.printFancyName() + " " + this.printType() + " was sold. " + this.sellDetails();
+		return pieces + " piece(s) " + this.printFancyName() + " " + this.printType() + " was sold (" + printPrice(this.price * pieces) + "). "
+				+ this.sellDetails();
+	}
+
+	private String printFancyName() {
+		return String.format("%-10s", this.fancyName.toUpperCase());
+	}
+
+	private static String printPrice(double price) {
+		return String.format("%3s", Math.round(price)) + " " + Furniture.CURRENCY;
 	}
 
 	protected abstract String printType();
@@ -61,7 +70,7 @@ public abstract class Furniture {
 		if (!(othat instanceof Furniture)) {
 			return false;
 		}
-		Furniture that = (Furniture) othat;
+		final Furniture that = (Furniture) othat;
 		if ((this.fancyName.equals(that.fancyName) && this.room.equals(that.room)) && this.material.equals(that.material) && this.size.equals(that.size)) {
 			return true;
 		}
@@ -70,12 +79,7 @@ public abstract class Furniture {
 
 	@Override
 	public String toString() {
-		return this.printType() + this.printFancyName() + this.room + " " + this.material + " " + this.size + " " + String.format("%3s", Math.round(this.price))
-				+ " " + Furniture.CURRENCY;
-	}
-
-	private String printFancyName() {
-		return String.format("%-10s", this.fancyName.toUpperCase());
+		return this.printType() + this.printFancyName() + this.room + " " + this.material + " " + this.size + " " + printPrice(this.price);
 	}
 
 }
