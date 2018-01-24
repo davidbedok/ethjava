@@ -11,19 +11,28 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<version.log4j>1.2.17</version.log4j>
+		<version.testng>6.13.1</version.testng>
+		<version.mockito>2.13.0</version.mockito>
 	</properties>	
 	
 	<dependencies>
 		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${version.log4j}</version>
+			<scope>test</scope>
+		</dependency>	
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.13.1</version>
+			<version>${version.testng}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.13.0</version>
+			<version>${version.mockito}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -13,7 +13,7 @@ public class Store {
 		this.items = new HashMap<Furniture, Integer>();
 	}
 
-	private void updateStock(Furniture furniture, Integer count) {
+	public void updateStock(Furniture furniture, Integer count) {
 		Integer newCount = count;
 		if (this.items.containsKey(furniture)) {
 			newCount += this.items.get(furniture);
@@ -51,6 +51,7 @@ public class Store {
 	@Override
 	public String toString() {
 		final StringBuilder info = new StringBuilder(100);
+		info.append("---[ STORE ]---\n");
 		for (final Furniture furniture : this.items.keySet()) {
 			final Integer count = this.items.get(furniture);
 			info.append(String.format("%2s piece(s) - ", Math.round(count))).append(furniture).append("\n");
