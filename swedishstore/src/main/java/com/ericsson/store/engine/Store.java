@@ -1,9 +1,16 @@
 package com.ericsson.store.engine;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.ericsson.store.api.CompactSizeCapable;
 import com.ericsson.store.api.Furniture;
+import com.ericsson.store.common.Material;
+import com.ericsson.store.common.Mattress;
+import com.ericsson.store.furniture.Bed;
+import com.ericsson.store.search.FurnitureSearchCriteria;
 
 public class Store {
 
@@ -26,14 +33,14 @@ public class Store {
 	}
 
 	public Furniture getFurnitureByFancyName(String fancyName) {
-		Furniture ret = null;
-		for (final Furniture furniture : this.items.keySet()) {
-			if (fancyName.equals(furniture.getFancyName())) {
-				ret = furniture;
-				break;
-			}
-		}
-		return ret;
+		final String fancyNameTmp = fancyName.toUpperCase();
+		return this.items.keySet().stream().filter(furniture -> furniture.getFancyName().toUpperCase().equals(fancyNameTmp)).findFirst().orElse(null);
+	}
+
+	public List<Furniture> ssss(Mattress mattress) {
+
+		return this.items.keySet().stream().filter(f -> f instanceof Bed && Bed.class.cast(f).getMattress() == mattress).collect(Collectors.toList());
+
 	}
 
 	public String buy(Furniture furniture, int count) {
@@ -46,6 +53,34 @@ public class Store {
 			}
 		}
 		return info;
+	}
+
+	public List<Furniture> searchAny(Material material) {
+		return this.items.keySet().stream().filter(furniture -> furniture.getMaterial() == material).collect(Collectors.toList());
+	}
+
+	public List<Furniture> search(Material material) {
+		final Map<Furniture, Integer> items = this.items.entrySet().stream().filter(item -> item.getKey().getMaterial() == material && item.getValue() > 0)
+				.collect(Collectors.toMap(item -> item.getKey(), item -> item.getValue()));
+		return items.keySet().stream().collect(Collectors.toList());
+	}
+
+	public List<Furniture> searchCompactSizeCapable() {
+		return this.items.keySet().stream().filter(furniture -> furniture instanceof CompactSizeCapable).collect(Collectors.toList());
+	}
+
+	public List<Furniture> searchByPrice(double minimumPrice, double maximumPrice) {
+		return this.items.keySet().stream().filter(furniture -> furniture.getPrice() >= minimumPrice && furniture.getPrice() <= maximumPrice)
+				.collect(Collectors.toList());
+	}
+
+	public List<Furniture> search(Mattress mattress) {
+		return this.items.keySet().stream().filter(furniture -> furniture instanceof Bed && Bed.class.cast(furniture).getMattress() == mattress)
+				.collect(Collectors.toList());
+	}
+
+	public List<Furniture> search(FurnitureSearchCriteria criteria) {
+		return this.items.keySet().stream().filter(criteria::isValid).collect(Collectors.toList());
 	}
 
 	@Override
