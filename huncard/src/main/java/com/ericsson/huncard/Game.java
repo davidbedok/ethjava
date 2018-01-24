@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.ericsson.huncard.factory.DeckFactory;
+
 public class Game {
 
 	private final int numberOfPlayerCards;
 	private final Deck deck;
 	private final List<Player> players;
 
-	public Game(Random random, int numberOfPlayerCards) {
+	public Game(DeckFactory deckFactory, int numberOfPlayerCards) {
 		this.numberOfPlayerCards = numberOfPlayerCards;
-		this.deck = new Deck(random);
+		this.deck = deckFactory.getDeck();
 		this.players = new ArrayList<>();
 	}
 
@@ -22,7 +24,7 @@ public class Game {
 		}
 	}
 
-	private void addPlayer(Player player) {
+	protected void addPlayer(Player player) {
 		this.players.add(player);
 	}
 
