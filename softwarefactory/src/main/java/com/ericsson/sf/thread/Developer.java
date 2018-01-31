@@ -48,11 +48,11 @@ public class Developer extends Thread {
 	}
 
 	public synchronized void waitingForUseMe() throws InterruptedException {
-
+		this.wait();
 	}
 
 	public synchronized void readyToGetANewJob() throws InterruptedException {
-
+		this.notify();
 	}
 
 	public String getUserName() {

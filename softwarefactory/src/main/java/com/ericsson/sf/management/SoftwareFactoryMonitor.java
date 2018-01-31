@@ -1,11 +1,11 @@
 package com.ericsson.sf.management;
 
 import javax.management.NotCompliantMBeanException;
-import javax.management.StandardMBean;
 
 import com.ericsson.sf.engine.ProjectInfo;
+import com.ericsson.sf.management.util.AnnotatedStandardMBean;
 
-public class SoftwareFactoryMonitor extends StandardMBean implements SoftwareFactoryMonitorMBean {
+public class SoftwareFactoryMonitor extends AnnotatedStandardMBean implements SoftwareFactoryMonitorMBean {
 
 	public SoftwareFactoryMonitor() throws NotCompliantMBeanException {
 		this(SoftwareFactoryMonitorMBean.class);

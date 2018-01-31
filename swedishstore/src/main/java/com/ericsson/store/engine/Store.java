@@ -38,12 +38,6 @@ public class Store {
 		return this.items.keySet().stream().filter(furniture -> furniture.getFancyName().toUpperCase().equals(fancyNameTmp)).findFirst().orElse(null);
 	}
 
-	public List<Furniture> ssss(Mattress mattress) {
-
-		return this.items.keySet().stream().filter(f -> f instanceof Bed && Bed.class.cast(f).getMattress() == mattress).collect(Collectors.toList());
-
-	}
-
 	public String buy(Furniture furniture, int count) {
 		String info = null;
 		if (this.items.containsKey(furniture)) {

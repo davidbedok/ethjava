@@ -52,11 +52,11 @@ public class ProjectInfo implements Cloneable {
 	}
 
 	public String[] getDeveloperNames() {
-		return null;
+		return this.developers.stream().map(Developer::getUserName).toArray(String[]::new);
 	}
 
 	public String[] getStoryIdentifiers() {
-		return null;
+		return this.stories.stream().map(Story::getIdentifier).toArray(String[]::new);
 	}
 
 	public String getStoryInfo(String identifier) {
