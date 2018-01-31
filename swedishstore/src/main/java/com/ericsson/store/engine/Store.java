@@ -11,6 +11,7 @@ import com.ericsson.store.common.Material;
 import com.ericsson.store.common.Mattress;
 import com.ericsson.store.furniture.Bed;
 import com.ericsson.store.search.FurnitureSearchCriteria;
+import com.ericsson.store.search.advanced.FurnitureSearch;
 
 public class Store {
 
@@ -81,6 +82,10 @@ public class Store {
 
 	public List<Furniture> search(FurnitureSearchCriteria criteria) {
 		return this.items.keySet().stream().filter(criteria::isValid).collect(Collectors.toList());
+	}
+
+	public List<Furniture> search(FurnitureSearch search) {
+		return this.items.keySet().stream().filter(search::isValid).collect(Collectors.toList());
 	}
 
 	@Override

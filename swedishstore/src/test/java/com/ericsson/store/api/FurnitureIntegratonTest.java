@@ -22,6 +22,9 @@ import com.ericsson.store.furniture.Bed;
 import com.ericsson.store.furniture.Table;
 import com.ericsson.store.furniture.Wardrobe;
 import com.ericsson.store.search.FurnitureSearchCriteria;
+import com.ericsson.store.search.advanced.CompactSizeCriterion;
+import com.ericsson.store.search.advanced.FurnitureSearch;
+import com.ericsson.store.search.advanced.MaterialCriterion;
 
 public class FurnitureIntegratonTest {
 
@@ -104,6 +107,30 @@ public class FurnitureIntegratonTest {
 
 		criteria = new FurnitureSearchCriteria().material(Material.CherryTree).material(Material.Oak);
 		final List<Furniture> result3 = this.store.search(criteria);
+		result3.stream().forEach(LOGGER::info);
+		Assert.assertEquals(result3.size(), 18);
+	}
+
+	@Test
+	public void searchCommandDesignPattern() {
+		LOGGER.info("------------");
+
+		FurnitureSearch search = FurnitureSearch.create(new MaterialCriterion(Material.CherryTree, Material.Oak)).add(new CompactSizeCriterion(true));
+		final List<Furniture> result1 = this.store.search(search);
+		result1.stream().forEach(LOGGER::info);
+		Assert.assertEquals(result1.size(), 5);
+
+		LOGGER.info("------------");
+
+		search = new FurnitureSearch().material(Material.CherryTree, Material.Oak).compactSize(false);
+		final List<Furniture> result2 = this.store.search(search);
+		result2.stream().forEach(LOGGER::info);
+		Assert.assertEquals(result2.size(), 8);
+
+		LOGGER.info("------------");
+
+		search = new FurnitureSearch().material(Material.CherryTree, Material.Oak);
+		final List<Furniture> result3 = this.store.search(search);
 		result3.stream().forEach(LOGGER::info);
 		Assert.assertEquals(result3.size(), 18);
 	}
