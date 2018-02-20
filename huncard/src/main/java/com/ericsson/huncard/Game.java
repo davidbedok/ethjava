@@ -31,7 +31,7 @@ public class Game {
 	public Player play() {
 		this.deck.shuffle();
 		this.divideCards();
-		return this.getWinners();
+		return this.getWinner();
 	}
 
 	private void divideCards() {
@@ -42,7 +42,7 @@ public class Game {
 		}
 	}
 
-	private Player getWinners() {
+	private Player getWinner() {
 		Player result = null;
 		if (this.players.size() > 0) {
 			result = this.players.get(0);
