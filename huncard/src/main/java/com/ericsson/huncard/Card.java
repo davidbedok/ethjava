@@ -2,10 +2,10 @@ package com.ericsson.huncard;
 
 public class Card {
 
-	private final CardRank rank;
-	private final CardSuit suit;
+	private final CardRankValuable rank;
+	private final CardSuitValuable suit;
 
-	public Card(CardSuit suit, CardRank rank) {
+	public Card(CardSuitValuable suit, CardRankValuable rank) {
 		this.suit = suit;
 		this.rank = rank;
 	}

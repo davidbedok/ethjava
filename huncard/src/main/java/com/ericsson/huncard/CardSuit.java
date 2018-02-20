@@ -1,6 +1,6 @@
 package com.ericsson.huncard;
 
-public enum CardSuit {
+public enum CardSuit implements CardSuitValuable {
 
 	Acorns(1, "Makk"),
 	Bells(2, "Tok"),

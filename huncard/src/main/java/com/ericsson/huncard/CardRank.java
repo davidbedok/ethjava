@@ -1,6 +1,6 @@
 package com.ericsson.huncard;
 
-public enum CardRank {
+public enum CardRank implements CardRankValuable {
 
 	r7("7", 7),
 	r8("8", 8),
