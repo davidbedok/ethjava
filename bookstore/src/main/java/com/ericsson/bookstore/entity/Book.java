@@ -17,6 +17,7 @@ import com.ericsson.bookstore.entity.trunk.BookCategory;
 
 @Entity
 @Table(name = "book")
+@SequenceGenerator(name = "generatorBook", sequenceName = "book_book_id_seq", allocationSize = 1)
 @NamedQuery(name = Book.GET_BY_ISBN, query = "SELECT b FROM Book b WHERE b.isbn=:isbn")
 public class Book implements Serializable {
 
@@ -25,7 +26,6 @@ public class Book implements Serializable {
 	public static final String GET_BY_ISBN = "Book.getByIsbn";
 
 	@Id
-	@SequenceGenerator(name = "generatorBook", sequenceName = "book_book_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generatorBook")
 	@Column(name = "book_id", nullable = false)
 	private Long id;

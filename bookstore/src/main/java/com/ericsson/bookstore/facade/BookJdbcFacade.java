@@ -47,7 +47,10 @@ public class BookJdbcFacade implements AutoCloseable, BookFacade {
 			+ "ORDER BY " //
 			+ " book_title ";
 
+	private final Connection connection;
+
 	public BookJdbcFacade(String host, int port, String database) throws SQLException {
+		this.connection = DriverManager.getConnection(this.getJdbcUrl(host, port, database), "bookstore_user", "123topSECret321");
 	}
 
 	private String getJdbcUrl(String host, int port, String database) {
@@ -56,17 +59,60 @@ public class BookJdbcFacade implements AutoCloseable, BookFacade {
 
 	@Override
 	public void close() {
+		try {
+			this.connection.close();
+		} catch (final SQLException e) {
+			LOGGER.error(e, e);
+		}
 	}
 
 	@Override
 	public List<BookStub> getAllBooks() {
 		final List<BookStub> result = new ArrayList<>();
+		try {
+			final Statement statement = this.connection.createStatement();
+			final ResultSet rs = statement.executeQuery(GET_ALL_BOOKS);
+			while (rs.next()) {
+				final String isbn = rs.getString("book_isbn");
+				final String author = rs.getString("book_author");
+				final String title = rs.getString("book_title");
+				final Double price = rs.getDouble("book_price");
+				final Integer numberOfPages = rs.getInt("book_number_of_pages");
+				final String categoryName = rs.getString("bookcategory_name");
+
+				final BookCategoryStub category = BookCategoryStub.valueOf(categoryName);
+				result.add(new BookStub(isbn, author, title, category, price, numberOfPages));
+			}
+			rs.close();
+			statement.close();
+		} catch (final SQLException e) {
+			LOGGER.error(e, e);
+		}
 		return result;
 	}
 
 	@Override
 	public BookStub getBook(String isbn) {
 		BookStub result = null;
+		try {
+			final PreparedStatement statement = this.connection.prepareStatement(GET_BOOK);
+			statement.setString(1, isbn);
+			final ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				final String author = rs.getString("book_author");
+				final String title = rs.getString("book_title");
+				final Double price = rs.getDouble("book_price");
+				final Integer numberOfPages = rs.getInt("book_number_of_pages");
+				final String categoryName = rs.getString("bookcategory_name");
+
+				final BookCategoryStub category = BookCategoryStub.valueOf(categoryName);
+				result = new BookStub(isbn, author, title, category, price, numberOfPages);
+			}
+			rs.close();
+			statement.close();
+		} catch (final SQLException e) {
+			LOGGER.error(e, e);
+		}
 		return result;
 	}
 
