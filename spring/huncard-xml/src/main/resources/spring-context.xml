@@ -7,4 +7,18 @@
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<context:property-placeholder location="application.properties"/>
+
+	<bean id="game" class="com.ericsson.huncard.Game">
+		<property name="deck" ref="deck" />
+		<property name="numberOfPlayerCards" value="${numberOfPlayerCards}" />
+	</bean>
+
+	<bean id="deck" class="com.ericsson.huncard.Deck">
+		<property name="random" ref="random" />
+		<property name="shuffleFactor" value="${shuffleFactor}" />		
+	</bean>
+	
+	<bean id="random" class="java.util.Random" />
+	
 </beans>

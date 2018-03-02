@@ -21,6 +21,10 @@ public class Game {
 	public Game() {
 		this.players = new ArrayList<>();
 	}
+	
+	public void setDeck(Deck deck) {
+		this.deck = deck;
+	} 
 
 	public void addPlayer(String... names) {
 		for (final String name : names) {

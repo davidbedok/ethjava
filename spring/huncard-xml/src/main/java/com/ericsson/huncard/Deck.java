@@ -4,18 +4,28 @@ import java.util.Random;
 
 public class Deck {
 
-	private static final int SHUFFLE_FACTOR = 100;
+	private int shuffleFactor;
+	private Random random;
+
 	private final Card[] cards;
 	private int topCardIndex;
-	private final Random random;
 
-	public Deck(Random random) {
+	public Deck() {
+		this.cards = new Card[CardRank.values().length * CardSuit.values().length];
+		this.initDeck();
+	}
+
+	public void setShuffleFactor(int shuffleFactor) {
+		this.shuffleFactor = shuffleFactor;
+	}
+
+	public void setRandom(Random random) {
 		this.random = random;
+	}
+
+	protected void initDeck() {
 		final CardRank[] ranks = CardRank.values();
 		final CardSuit[] suits = CardSuit.values();
-
-		this.cards = new Card[suits.length * ranks.length];
-
 		int index = 0;
 		for (final CardSuit suit : suits) {
 			for (final CardRank rank : ranks) {
@@ -31,7 +41,7 @@ public class Deck {
 
 	public void shuffle() {
 		final int size = this.cards.length;
-		for (int i = 0; i < SHUFFLE_FACTOR; i++) {
+		for (int i = 0; i < this.shuffleFactor; i++) {
 			this.changeCards(this.random.nextInt(size), this.random.nextInt(size));
 		}
 		this.topCardIndex = 0;

@@ -2,20 +2,24 @@ package com.ericsson.huncard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import com.ericsson.huncard.factory.DeckFactory;
 
 public class Game {
 
-	private final int numberOfPlayerCards;
-	private final Deck deck;
+	private int numberOfPlayerCards;
+	private Deck deck;
+
 	private final List<Player> players;
 
-	public Game(DeckFactory deckFactory, int numberOfPlayerCards) {
-		this.numberOfPlayerCards = numberOfPlayerCards;
-		this.deck = deckFactory.getDeck();
+	public Game() {
 		this.players = new ArrayList<>();
+	}
+
+	public void setDeck(Deck deck) {
+		this.deck = deck;
+	}
+
+	public void setNumberOfPlayerCards(int numberOfPlayerCards) {
+		this.numberOfPlayerCards = numberOfPlayerCards;
 	}
 
 	public void addPlayer(String... names) {
@@ -30,11 +34,11 @@ public class Game {
 
 	public Player play() {
 		this.deck.shuffle();
-		this.divideCards();
+		this.dealCards();
 		return this.getWinners();
 	}
 
-	private void divideCards() {
+	private void dealCards() {
 		for (int k = 0; k < this.numberOfPlayerCards; k++) {
 			for (final Player player : this.players) {
 				player.addCard(this.deck.getTopCard());
